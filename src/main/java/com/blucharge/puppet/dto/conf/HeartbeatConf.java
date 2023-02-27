@@ -10,7 +10,6 @@ import org.springframework.lang.NonNull;
 @Setter
 @ToString
 @Slf4j
-
 public class HeartbeatConf {
     @NonNull
     Date currentTime = new Date();
