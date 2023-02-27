@@ -21,8 +21,9 @@ repositories {
 }
 
 dependencies {
+	//compile "org.springframework:spring-websocket:5.2.2.RELEASE"
+	compile "org.springframework:spring-messaging:5.2.2.RELEASE"
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

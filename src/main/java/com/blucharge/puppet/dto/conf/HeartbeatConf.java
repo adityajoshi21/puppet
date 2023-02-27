@@ -9,7 +9,6 @@ import org.springframework.lang.NonNull;
 @Getter
 @Setter
 @ToString
-@Builder
 @Slf4j
 
 public class HeartbeatConf {

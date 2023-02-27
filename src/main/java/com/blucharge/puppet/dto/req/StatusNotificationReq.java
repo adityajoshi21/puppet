@@ -10,7 +10,6 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@Builder
 @Slf4j
 public class StatusNotificationReq {
     private int connectorId; //for id=0, the status is for CP main controller

@@ -4,20 +4,18 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@Builder
 @Slf4j
 
 public class BootNotificationReq {
-
     private String chargeBoxSerialNumber;
     @NonNull
     private String chargePointModel;
-
     private String chargePointSerialNumber;
     @NonNull
     private String chargePointVendor;
@@ -26,8 +24,6 @@ public class BootNotificationReq {
     private String firmwareVersion;
     private String meterSerialNumber;
     private String meterType;
-
-
 
 
 }

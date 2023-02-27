@@ -11,11 +11,10 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@Builder
 @Slf4j
 public class BootNotificationConf {
-
     private Date currentTime = new Date();
     private int heartbeatInterval;
     private RegistrationStatus status;
+
 }

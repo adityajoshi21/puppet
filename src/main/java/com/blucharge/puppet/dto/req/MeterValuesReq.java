@@ -9,10 +9,8 @@ import org.springframework.lang.Nullable;
 @Getter
 @Setter
 @ToString
-@Builder
 @Slf4j
 public class MeterValuesReq {
-
     private int connectorId;
     private int transactionId;
     // public MeterValue meterValue; need to clarify from DB

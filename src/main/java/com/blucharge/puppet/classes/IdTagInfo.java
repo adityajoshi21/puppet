@@ -1,6 +1,6 @@
 package com.blucharge.puppet.classes;
 
-import com.blucharge.mockcharger.enums.AuthorizationStatus;
+import com.blucharge.puppet.enums.AuthorizationStatus;
 
 import java.util.Date;
 
