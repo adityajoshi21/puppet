@@ -1,4 +1,4 @@
-package com.blucharge.puppet.classes;
+package com.blucharge.puppet.dto.classes;
 
 import java.util.Date;
 

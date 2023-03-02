@@ -1,6 +1,6 @@
 package com.blucharge.puppet.dto.req;
-import com.blucharge.puppet.enums.ChargePointErrorCode;
-import com.blucharge.puppet.enums.ChargePointStatus;
+import com.blucharge.puppet.dto.enums.ChargePointErrorCode;
+import com.blucharge.puppet.dto.enums.ChargePointStatus;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import java.util.Date;

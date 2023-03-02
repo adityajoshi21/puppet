@@ -1,6 +1,6 @@
 package com.blucharge.puppet.dto.req;
 
-import com.blucharge.puppet.classes.IdToken;
+import com.blucharge.puppet.dto.classes.IdToken;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 

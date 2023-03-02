@@ -1,4 +1,4 @@
-package com.blucharge.puppet.enums;
+package com.blucharge.puppet.dto.enums;
 
 public enum ReasonForStopTransaction {
     EMERGENCYSTOP, EVDISCONNECTED, HARDRESET, LOCAL, OTHER, POWERLOSS, REBOOT,

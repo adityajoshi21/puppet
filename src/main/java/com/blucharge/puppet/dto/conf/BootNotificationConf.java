@@ -1,8 +1,7 @@
 package com.blucharge.puppet.dto.conf;
-import com.blucharge.puppet.enums.RegistrationStatus;
+import com.blucharge.puppet.dto.enums.RegistrationStatus;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
 
 import java.util.Date;
 

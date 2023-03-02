@@ -1,6 +1,6 @@
-package com.blucharge.puppet.classes;
+package com.blucharge.puppet.dto.classes;
 
-import com.blucharge.puppet.enums.AuthorizationStatus;
+import com.blucharge.puppet.dto.enums.AuthorizationStatus;
 
 import java.util.Date;
 
