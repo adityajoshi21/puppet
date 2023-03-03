@@ -14,10 +14,9 @@ import org.springframework.lang.NonNull;
 
 public class BootNotificationReq {
     private String chargeBoxSerialNumber;
-    @NonNull
     private String chargePointModel;
     private String chargePointSerialNumber;
-    @NonNull
+
     private String chargePointVendor;
     private String iccid;
     private String imsi;

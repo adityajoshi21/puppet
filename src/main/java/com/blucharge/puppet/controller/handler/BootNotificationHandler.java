@@ -1,4 +1,5 @@
 package com.blucharge.puppet.controller.handler;
+
 import com.blucharge.puppet.dto.req.BootNotificationReq;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,7 @@ public class BootNotificationHandler extends StompSessionHandlerAdapter {
 
     @Override
     public Type getPayloadType(StompHeaders headers) {
+
         return BootNotificationReq.class;
     }
 
