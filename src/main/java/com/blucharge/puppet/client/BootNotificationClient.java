@@ -1,18 +1,15 @@
-package com.blucharge.puppet.repository;
+package com.blucharge.puppet.client;
 
 import java.util.Scanner;
-
-import com.blucharge.puppet.controller.handler.BootNotificationHandler;
+import com.blucharge.puppet.client.messageHandler.BootNotificationHandler;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 
-    /**
-     * Stand alone Java WebSocketStompClient.
-     *
-     */
+     // Stand alone Java WebSocketStompClient.
+
     public  class BootNotificationClient {
 
         private static String URL = "ws://ocpp.uat.blucgn.com/blucharge/connect/BSCN-GGN004";

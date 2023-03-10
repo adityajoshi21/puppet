@@ -1,12 +1,13 @@
-package com.blucharge.puppet.controller.handler;
+
+package com.blucharge.puppet.client.messageHandler;
 
 import com.blucharge.puppet.dto.req.BootNotificationReq;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.messaging.simp.stomp.StompCommand;
+import org.apache.logging.log4j.Logger;
 import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.messaging.simp.stomp.StompSession;
 import java.lang.reflect.Type;
 
 public class BootNotificationHandler extends StompSessionHandlerAdapter {
@@ -44,7 +45,6 @@ public class BootNotificationHandler extends StompSessionHandlerAdapter {
         req.setChargePointModel("Statiq fast");
         req.setChargePointVendor("Statiq");
         return req;
-
     }
 }
 

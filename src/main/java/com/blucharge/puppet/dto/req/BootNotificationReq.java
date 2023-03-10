@@ -12,11 +12,11 @@ import org.springframework.lang.NonNull;
 @ToString
 @Slf4j
 
+
 public class BootNotificationReq {
     private String chargeBoxSerialNumber;
     private String chargePointModel;
     private String chargePointSerialNumber;
-
     private String chargePointVendor;
     private String iccid;
     private String imsi;
@@ -24,5 +24,8 @@ public class BootNotificationReq {
     private String meterSerialNumber;
     private String meterType;
 
-
+    public BootNotificationReq(String chargePointModel, String chargePointVendor) {
+        this.chargePointModel = chargePointModel;
+        this.chargePointVendor = chargePointVendor;
+    }
 }
