@@ -12,7 +12,7 @@ import org.springframework.messaging.simp.stomp.StompSessionHandler;
 
     public  class BootNotificationClient {
 
-        private static String URL = "ws://ocpp.uat.blucgn.com/blucharge/connect/BSCN-GGN004";
+        private final static String URL = "ws://ocpp.uat.blucgn.com/blucharge/connect/BSCN-GGN004";
 
         public static void main(String[] args) {
             WebSocketClient client = new StandardWebSocketClient();

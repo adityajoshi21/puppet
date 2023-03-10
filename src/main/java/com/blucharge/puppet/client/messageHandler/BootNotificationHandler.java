@@ -1,4 +1,3 @@
-
 package com.blucharge.puppet.client.messageHandler;
 
 import com.blucharge.puppet.dto.req.BootNotificationReq;
