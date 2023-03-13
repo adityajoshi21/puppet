@@ -24,8 +24,4 @@ public class BootNotificationReq {
     private String meterSerialNumber;
     private String meterType;
 
-    public BootNotificationReq(String chargePointModel, String chargePointVendor) {
-        this.chargePointModel = chargePointModel;
-        this.chargePointVendor = chargePointVendor;
-    }
 }
