@@ -11,8 +11,6 @@ import org.springframework.lang.NonNull;
 @Setter
 @ToString
 @Slf4j
-
-
 public class BootNotificationReq {
     private String chargeBoxSerialNumber;
     private String chargePointModel;

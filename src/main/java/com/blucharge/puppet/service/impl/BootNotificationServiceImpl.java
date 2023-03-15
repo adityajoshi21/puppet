@@ -4,18 +4,20 @@ import com.blucharge.puppet.service.BootNotificationService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BootNotificationImpl implements BootNotificationService {
+public class BootNotificationServiceImpl implements BootNotificationService {
 
     @Override
-    public void sendBootNotificationMessage(BootNotificationReq req) {
-        req.setChargeBoxSerialNumber("0123");
+    public BootNotificationReq sendBootNotificationMessage(String chargeBoxId) {
+        BootNotificationReq req = new BootNotificationReq();
+        req.setChargeBoxSerialNumber(chargeBoxId);
         req.setChargePointModel("HE513161");
-        req.setChargePointSerialNumber("BSCN-GGN004");
+        req.setChargePointSerialNumber(chargeBoxId);
         req.setChargePointVendor("Exicom");
         req.setFirmwareVersion("2.10");
         req.setIccid("9842020537");
         req.setImsi("523853440097");
         req.setMeterSerialNumber("MSN007");
         req.setMeterType("DC");
+        return  req;
     }
 }
