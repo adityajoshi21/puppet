@@ -1,8 +1,8 @@
 package com.blucharge.puppet.service.impl;
 import com.blucharge.puppet.dto.req.BootNotificationReq;
 import com.blucharge.puppet.service.BootNotificationService;
-import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BootNotificationServiceImpl implements BootNotificationService {

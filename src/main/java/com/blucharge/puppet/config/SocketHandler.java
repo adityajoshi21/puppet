@@ -1,12 +1,11 @@
 package com.blucharge.puppet.config;
 
+import com.blucharge.puppet.dto.req.BootNotificationReq;
 import com.blucharge.puppet.service.BootNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketHttpHeaders;
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -21,48 +20,49 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class SocketHandler extends TextWebSocketHandler {
 	
-	private static final Map <String , WebSocketSession> sessions = new HashMap<>();
-	private static final Map <String, String> sessionIdToChargeBoxIdMapping = new HashMap<>();
+	private static final Map <String , WebSocketSession> chargeBoxToSessionMapping = new HashMap<>();
+	public static final  Map <WebSocketSession, String> sessionToChargeBoxIdMapping = new HashMap<>();
 
+	public static final String CHARGEBOX_ID_KEY = "chargepoint0234";
 	@Autowired
 	private BootNotificationService bootNotificationService;
 	@PostConstruct
 	public WebSocketSession createWebSocketConnection() throws ExecutionException, InterruptedException, IOException {
-
+//		if(sessions.containsKey(chargeBoxId))
+//			return sessions.get(chargeBoxId);
 		StandardWebSocketClient client = new StandardWebSocketClient();
 		WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
 		headers.add("Sec-WebSocket-Protocol","ocpp1.6");
-		String chargeBoxId = "chargepoint0234";
-		WebSocketSession session = client.doHandshake(this,headers, URI.create("ws://ocpp.uat.blucgn.com/blucharge/connect/"+ chargeBoxId)).get();
-		sessionIdToChargeBoxIdMapping.put(session.getId(), chargeBoxId);
-		sessions.put(chargeBoxId, session);
+		System.out.println("1st");
+		WebSocketSession session = client.doHandshake(this,headers, URI.create("ws://ocpp.uat.blucgn.com/blucharge/connect/"+ CHARGEBOX_ID_KEY)).get();
+		System.out.println("4th");
 		return session;
 	}
 
 
-	@Override
-	public void handleTextMessage(WebSocketSession session, TextMessage message) // chargeboxid
-			throws  IOException {
-		log.info("Payload {}", message.getPayload());
+	public String getChargeBoxId(WebSocketSession session){
 
-		// response listening for BootNotification
-		//session.sendMessage(new TextMessage("status notification"));
-		// response listening
-		// heart-beat
-		// response listening
+		return (String) session.getAttributes().get(CHARGEBOX_ID_KEY);
+	}
+
+
+	@Override
+	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) // chargeboxid
+			throws  IOException {
+				System.out.println("3rd");
+				String currChargeBoxId =sessionToChargeBoxIdMapping.get(session);
+				WebSocketSession currSession = chargeBoxToSessionMapping.get(currChargeBoxId);
+				log.info("Current session established :" + currSession);
+				currSession.sendMessage(message);
 	}
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.info("Connection Established");
-		String currentChargeBoxId = sessionIdToChargeBoxIdMapping.get(session.getId());
-
-		session.sendMessage(new TextMessage(bootNotificationService.sendBootNotificationMessage(currentChargeBoxId).toString()));
-		log.info("Message Sent");
-	}
-
-	public static WebSocketSession getSessionByChargeBoxId(String chargeBoxId){
-
-		return sessions.get(chargeBoxId);
+		System.out.println("Connection Established");
+		chargeBoxToSessionMapping.put(CHARGEBOX_ID_KEY,session);
+		sessionToChargeBoxIdMapping.put(session, CHARGEBOX_ID_KEY);
+		String currChargeBoxId =sessionToChargeBoxIdMapping.get(session);
+		System.out.println("2nd");
+		handleMessage(session, new TextMessage(bootNotificationService.sendBootNotificationMessage(currChargeBoxId)));
 	}
 }
