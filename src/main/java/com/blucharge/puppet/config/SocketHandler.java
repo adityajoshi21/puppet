@@ -1,6 +1,5 @@
 package com.blucharge.puppet.config;
 
-import com.blucharge.puppet.controller.BootNotificationController;
 import com.blucharge.puppet.service.BootNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

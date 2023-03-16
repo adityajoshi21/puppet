@@ -2,12 +2,13 @@ package com.blucharge.puppet.service.impl;
 import com.blucharge.puppet.dto.req.BootNotificationReq;
 import com.blucharge.puppet.service.BootNotificationService;
 import org.springframework.stereotype.Service;
+import com.google.gson.Gson;
 
 @Service
 public class BootNotificationServiceImpl implements BootNotificationService {
 
     @Override
-    public BootNotificationReq sendBootNotificationMessage(String chargeBoxId) {
+    public String sendBootNotificationMessage(String chargeBoxId) {
         BootNotificationReq req = new BootNotificationReq();
         req.setChargeBoxSerialNumber(chargeBoxId);
         req.setChargePointModel("HE513161");
@@ -18,6 +19,6 @@ public class BootNotificationServiceImpl implements BootNotificationService {
         req.setImsi("523853440097");
         req.setMeterSerialNumber("MSN007");
         req.setMeterType("DC");
-        return  req;
+        return  new Gson().toJson(req);
     }
 }
