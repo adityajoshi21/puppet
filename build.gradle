@@ -18,18 +18,21 @@ repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
 	maven { url 'https://repo.spring.io/snapshot' }
+	mavenLocal()
 }
 
 dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-websocket:2.7.9'
-
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "joda-time:joda-time:2.9.9"
+	implementation 'com.google.code.gson:gson:2.10.1'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.9'
+	implementation 'com.blucharge:core:1.0-SNAPSHOT'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// https://mvnrepository.com/artifact/com.google.code.gson/gson
-	implementation 'com.google.code.gson:gson:2.10.1'
 
 }
 

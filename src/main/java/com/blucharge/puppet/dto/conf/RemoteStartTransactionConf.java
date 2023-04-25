@@ -12,6 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 
 public class RemoteStartTransactionConf {
-    private RemoteStartStopStatus status;
+    private String status;
 
 }

@@ -1,5 +1,5 @@
 package com.blucharge.puppet.dto.enums;
 
 public enum ChargePointStatus {
-    AVAILABLE, PREPARING, CHARGING, SUSPENDEDEVSE, SUSPENDEDEV, FINISHING, RESERVED
+    Available, Preparing, CHARGING, SUSPENDEDEVSE, SUSPENDEDEV, FINISHING, RESERVED
 }

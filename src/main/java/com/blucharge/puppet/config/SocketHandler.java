@@ -1,6 +1,6 @@
 package com.blucharge.puppet.config;
 
-import com.blucharge.puppet.service.BootNotificationService;
+import com.blucharge.puppet.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,18 +19,33 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class SocketHandler extends TextWebSocketHandler{
 	private static final Map <String , WebSocketSession> chargeBoxToSessionMapping = new HashMap<>();
-	public static final  Map <WebSocketSession, String> sessionToChargeBoxIdMapping = new HashMap<>();
+//	public static final  Map <WebSocketSession, String> sessionToChargeBoxIdMapping = new HashMap<>();
 	public static final String CHARGEBOX_ID_KEY = "chargepoint0234";
 	@Autowired
+	private AuthoriseService authoriseService;
+	@Autowired
 	private BootNotificationService bootNotificationService;
+	@Autowired
+	private HeartbeatService heartbeatService;
+	@Autowired
+	private StatusNotificationService statusNotificationService;
+
+	@Autowired
+	private StartTransactionService startTransactionService;
+	@Autowired
+	private StopTransactionService stopTransactionService;
+
+	@Autowired
+	private RemoteStartTxnService remoteStartTxnService;
+
+
 	@PostConstruct
 	public WebSocketSession createWebSocketConnection() throws ExecutionException, InterruptedException, IOException {
 		StandardWebSocketClient client = new StandardWebSocketClient();
 		WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
 		headers.add("Sec-WebSocket-Protocol","ocpp1.6");
 		System.out.println("1st");
-		WebSocketSession session = client.doHandshake(this,headers, URI.create("ws://ocpp.uat.blucgn.com/blucharge/connect/"+ CHARGEBOX_ID_KEY)).get();
-		System.out.println("4th");
+		WebSocketSession session = client.doHandshake(this,headers, URI.create("ws://localhost:8082/blucharge/connect/"+ CHARGEBOX_ID_KEY)).get();
 		return session;
 	}
 
@@ -42,27 +57,28 @@ public class SocketHandler extends TextWebSocketHandler{
 
 
 	@Override
-	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) // chargeboxid
+	public void handleTextMessage(WebSocketSession session, TextMessage message) // chargeboxid
 			throws  IOException {
-				System.out.println("3rd");
-				System.out.println(message.toString());
-				String currChargeBoxId =sessionToChargeBoxIdMapping.get(session);
-				WebSocketSession currSession = chargeBoxToSessionMapping.get(currChargeBoxId);
-				log.info("Current session: " + currSession +" with ChargeBoxId: " + currChargeBoxId);
-				currSession.sendMessage(message);
+				session.sendMessage(message);
+				//TextMessage heartBeatMsg = new TextMessage(heartbeatService.sendHeartbeatMessage());
+				TextMessage statusMsg = new TextMessage(statusNotificationService.sendStatusNotificationMessage());
+				TextMessage authoriseMsg = new TextMessage(authoriseService.sendAuthoriseMessage());
+				TextMessage startTransactionMsg = new TextMessage(startTransactionService.sendStartTransactionMessage());
+				TextMessage stopTransactionMsg = new TextMessage(stopTransactionService.sendStopTransactionMessage());
+				//TextMessage remoteStartMsg = new TextMessage(remoteStartTxnService.sendRemoteStartMessage());
+				session.sendMessage(statusMsg);
+				session.sendMessage(authoriseMsg);
+				session.sendMessage(startTransactionMsg);
+				session.sendMessage(stopTransactionMsg);
+
 	}
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("Connection Established at: "+ session.getId());
 		chargeBoxToSessionMapping.put(CHARGEBOX_ID_KEY,session);
-		sessionToChargeBoxIdMapping.put(session, CHARGEBOX_ID_KEY);
-		String currChargeBoxId =sessionToChargeBoxIdMapping.get(session);
-		System.out.println("2nd");
-		System.out.println(currChargeBoxId);
-		TextMessage msg = new TextMessage(bootNotificationService.sendBootNotificationMessage(currChargeBoxId));
-		System.out.println(msg);
-		handleMessage(session, msg);
+		TextMessage msg = new TextMessage(bootNotificationService.sendBootNotificationMessage(CHARGEBOX_ID_KEY));
+		System.out.println(msg.getPayload());
+		handleTextMessage(session, msg);
 	}
-
 }

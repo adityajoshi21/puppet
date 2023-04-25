@@ -4,6 +4,8 @@ import com.blucharge.puppet.dto.classes.IdToken;
 import com.blucharge.puppet.dto.enums.ReasonForStopTransaction;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 @AllArgsConstructor
@@ -14,11 +16,11 @@ import java.util.Date;
 @Slf4j
 public class StopTransactionReq {
 
-    private IdToken idTag;
+    private String idTag;
     private int meterStop;
-    private Date timestamp = new Date();
+    private String timestamp;
     private int transactionId;
-    private ReasonForStopTransaction reason;
+    private ReasonForStopTransaction reason; //backend pe transaction data kuch hai
 
     //MeterValue transactionData; here MeterValue class DT is to be added
 

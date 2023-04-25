@@ -13,5 +13,5 @@ import org.springframework.lang.NonNull;
 
 public class AuthorizeReq {
 @NonNull
-private IdToken idTag;
+private String idTag;
 }
