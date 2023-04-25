@@ -28,7 +28,7 @@ dependencies {
 	implementation "joda-time:joda-time:2.9.9"
 	implementation 'com.google.code.gson:gson:2.10.1'
 	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.9'
-	implementation 'com.blucharge:core:1.0-SNAPSHOT'
+	implementation 'com.blucharge:core:1.0'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
