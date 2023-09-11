@@ -13,9 +13,10 @@ public class AuthoriseServiceImpl implements AuthoriseService {
     @Override
     public String sendAuthoriseMessage() {
         AuthorizeReq req = new AuthorizeReq();
-        String randomStringValue = String.valueOf(new Random(10000));
-        req.setIdTag("06d6-4ad8-9d24");
-        //req.setIdTag("0ff7-1b47-43e0");  for UAT
+        Random random = new Random();
+        String randomStringValue = String.valueOf(random.nextInt(10000));
+//        req.setIdTag("06d6-4ad8-9d24"); //For Local DB
+        req.setIdTag("0d11-4a26-92c3");  //for UAT
         return " [2, \""+randomStringValue+"\",\"Authorize\","+new Gson().toJson(req)+"]";
     }
 }

@@ -18,8 +18,8 @@ public class StartTransactionServiceImpl implements StartTransactionService {
     @Override
     public String sendStartTransactionMessage() {
 
-        Random rand = new Random();
-        String randomStringValue = String.valueOf(rand.nextInt(10000));
+        Random random = new Random();
+        String randomStringValue = String.valueOf(random.nextInt(10000));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         StartTransactionReq req = new StartTransactionReq();
@@ -27,7 +27,7 @@ public class StartTransactionServiceImpl implements StartTransactionService {
         req.setMeterStart(21);
         req.setReservationId(12);
         req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString()); //object to UTC string deserializer
-        req.setIdTag("06d6-4ad8-9d24");
+        req.setIdTag("0d11-4a26-92c3");
         //req.setIdTag("0ff7-1b47-43e0"); for UAT
 
         return  "[2,\""+randomStringValue+"\",\"StartTransaction\"," + new Gson().toJson(req)+"]";

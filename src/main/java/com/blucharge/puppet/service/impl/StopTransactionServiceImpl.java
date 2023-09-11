@@ -14,13 +14,13 @@ import java.util.Random;
 public class StopTransactionServiceImpl implements StopTransactionService {
     @Override
     public  String sendStopTransactionMessage(){
-        Random rand = new Random();
-        String randomStringValue = String.valueOf(rand.nextInt(10000));
+        Random random = new Random();
+        String randomStringValue = String.valueOf(random.nextInt(10000));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         StopTransactionReq req = new StopTransactionReq();
         req.setTransactionId(1);
-        req.setIdTag("06d6-4ad8-9d24");
+        req.setIdTag("0d11-4a26-92c3");
         // req.setIdTag("0ff7-1b47-43e0")  //for UAT
         req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString());
         req.setMeterStop(28);

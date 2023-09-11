@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static com.blucharge.puppet.constants.ApplicationConstants.*;
+
 @Component
 @Slf4j
-public class SocketHandler extends TextWebSocketHandler{
+public class SocketHandler extends TextWebSocketHandler {
 	private static final Map <String , WebSocketSession> chargeBoxToSessionMapping = new HashMap<>();
-//	public static final  Map <WebSocketSession, String> sessionToChargeBoxIdMapping = new HashMap<>();
-	public static final String CHARGEBOX_ID_KEY = "chargepoint0234";
 	@Autowired
 	private AuthoriseService authoriseService;
 	@Autowired
@@ -35,8 +35,6 @@ public class SocketHandler extends TextWebSocketHandler{
 	@Autowired
 	private StopTransactionService stopTransactionService;
 
-	@Autowired
-	private RemoteStartTxnService remoteStartTxnService;
 
 
 	@PostConstruct
@@ -45,40 +43,50 @@ public class SocketHandler extends TextWebSocketHandler{
 		WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
 		headers.add("Sec-WebSocket-Protocol","ocpp1.6");
 		System.out.println("1st");
-		WebSocketSession session = client.doHandshake(this,headers, URI.create("ws://localhost:8082/blucharge/connect/"+ CHARGEBOX_ID_KEY)).get();
+		WebSocketSession session = client.doHandshake(this,headers, URI.create(STAGING_BASE_URL+ TEST_CHARGER)).get();
 		return session;
 	}
 
 
-	public String getChargeBoxId(WebSocketSession session){
-
-		return (String) session.getAttributes().get(CHARGEBOX_ID_KEY);
-	}
-
-
-	@Override
-	public void handleTextMessage(WebSocketSession session, TextMessage message) // chargeboxid
-			throws  IOException {
-				session.sendMessage(message);
-				//TextMessage heartBeatMsg = new TextMessage(heartbeatService.sendHeartbeatMessage());
-				TextMessage statusMsg = new TextMessage(statusNotificationService.sendStatusNotificationMessage());
-				TextMessage authoriseMsg = new TextMessage(authoriseService.sendAuthoriseMessage());
-				TextMessage startTransactionMsg = new TextMessage(startTransactionService.sendStartTransactionMessage());
-				TextMessage stopTransactionMsg = new TextMessage(stopTransactionService.sendStopTransactionMessage());
-				//TextMessage remoteStartMsg = new TextMessage(remoteStartTxnService.sendRemoteStartMessage());
-				session.sendMessage(statusMsg);
-				session.sendMessage(authoriseMsg);
-				session.sendMessage(startTransactionMsg);
-				session.sendMessage(stopTransactionMsg);
-
-	}
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("Connection Established at: "+ session.getId());
-		chargeBoxToSessionMapping.put(CHARGEBOX_ID_KEY,session);
-		TextMessage msg = new TextMessage(bootNotificationService.sendBootNotificationMessage(CHARGEBOX_ID_KEY));
-		System.out.println(msg.getPayload());
-		handleTextMessage(session, msg);
+		log.info("Connection Established at: "+ session.getId());
+		chargeBoxToSessionMapping.put(TEST_CHARGER,session);
+		TextMessage bootNotificationMsg = new TextMessage(bootNotificationService.sendBootNotificationMessage(TEST_CHARGER));
+		session.sendMessage(bootNotificationMsg);
+		log.info(bootNotificationMsg.getPayload());
+
+	}
+
+	@Override
+	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+		TextMessage heartbeatMsg = new TextMessage(heartbeatService.sendHeartbeatMessage());
+//		session.sendMessage(heartbeatMsg);
+		TextMessage statusMsg = new TextMessage(statusNotificationService.sendStatusNotificationMessage());
+		log.info(statusMsg.getPayload());
+		session.sendMessage(statusMsg);
+		TextMessage authoriseMsg = new TextMessage(authoriseService.sendAuthoriseMessage());
+		session.sendMessage(authoriseMsg);
+		TextMessage startTransactionMsg = new TextMessage(startTransactionService.sendStartTransactionMessage());
+		session.sendMessage(startTransactionMsg);
+		TextMessage stopTransactionMsg = new TextMessage(stopTransactionService.sendStopTransactionMessage());
+		session.sendMessage(stopTransactionMsg);
+
+	}
+
+	@Override
+	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+		log.info("There was some error in Transport Layer!");
+	}
+
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+		log.info("Connection has been closed!");
+	}
+
+	@Override
+	public boolean supportsPartialMessages() {
+		return false;
 	}
 }

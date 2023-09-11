@@ -9,14 +9,14 @@ public class BootNotificationServiceImpl implements BootNotificationService {
 
     @Override
     public String sendBootNotificationMessage(String chargeBoxId) {
-        Random rand = new Random();
-        String randomStringValue = String.valueOf(rand.nextInt(10000));
+        Random random = new Random();
+        String randomStringValue = String.valueOf(random.nextInt(10000));
         BootNotificationReq req = new BootNotificationReq();
         req.setChargeBoxSerialNumber(chargeBoxId);
         req.setChargePointModel("HE523853");
         req.setChargePointSerialNumber(chargeBoxId);
         req.setChargePointVendor("BluSmart");
-        req.setFirmwareVersion("2.10");
+        req.setFirmwareVersion("2.13");
         req.setIccid("9842020537");
         req.setImsi("523853440097");
         req.setMeterSerialNumber("MSN007");

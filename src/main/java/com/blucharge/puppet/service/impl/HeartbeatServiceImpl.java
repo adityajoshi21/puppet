@@ -10,9 +10,9 @@ import java.util.Random;
 public class HeartbeatServiceImpl implements HeartbeatService {
     @Override
     public String sendHeartbeatMessage() {
-        Random rand = new Random();
+        Random random = new Random();
         Object obj = new Object();
-        String randomStringValue = String.valueOf(rand.nextInt(10000)); //Generating random int for MessageId
+        String randomStringValue = String.valueOf(random.nextInt(10000)); //Generating random int for MessageId
         Gson gson = new Gson();
         return "[2, \""+randomStringValue+"\",\"Heartbeat\","+ gson.toJson(obj)+"]";
     }
