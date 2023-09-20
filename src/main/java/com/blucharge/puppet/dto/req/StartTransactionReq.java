@@ -25,7 +25,4 @@ public class StartTransactionReq {
     @JsonSerialize(using = DateTimeSerializer.class)
     private String timestamp;
     private String idTag;
-
-    //private IdToken idTag;
-
 }

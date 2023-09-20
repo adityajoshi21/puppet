@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+import static com.blucharge.puppet.constants.ApplicationConstants.*;
+
 
 @Component
 public class StartTransactionServiceImpl implements StartTransactionService {
@@ -20,16 +22,13 @@ public class StartTransactionServiceImpl implements StartTransactionService {
 
         Random random = new Random();
         String randomStringValue = String.valueOf(random.nextInt(10000));
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         StartTransactionReq req = new StartTransactionReq();
-        req.setConnectorId(1);
-        req.setMeterStart(21);
-        req.setReservationId(12);
-        req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString()); //object to UTC string deserializer
-        req.setIdTag("0d11-4a26-92c3");
-        //req.setIdTag("0ff7-1b47-43e0"); for UAT
-
+        req.setConnectorId(CONNECTOR_ID);
+        req.setMeterStart(METER_START_VALUE);
+        req.setReservationId(RESERVATION_ID);
+        req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString());
+        req.setIdTag(ID_TAG_STAGING);
         return  "[2,\""+randomStringValue+"\",\"StartTransaction\"," + new Gson().toJson(req)+"]";
 
     }

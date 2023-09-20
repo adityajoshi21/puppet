@@ -34,16 +34,19 @@ public class SocketHandler extends TextWebSocketHandler {
 	private StartTransactionService startTransactionService;
 	@Autowired
 	private StopTransactionService stopTransactionService;
+	@Autowired
+	private MeterValueService meterValueService;
+	@Autowired
+	private RemoteTransactionService remoteTransactionService;
 
 
 
 	@PostConstruct
-	public WebSocketSession createWebSocketConnection() throws ExecutionException, InterruptedException, IOException {
+	public WebSocketSession createWebSocketConnection() throws ExecutionException, InterruptedException {
 		StandardWebSocketClient client = new StandardWebSocketClient();
 		WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
-		headers.add("Sec-WebSocket-Protocol","ocpp1.6");
-		System.out.println("1st");
-		WebSocketSession session = client.doHandshake(this,headers, URI.create(STAGING_BASE_URL+ TEST_CHARGER)).get();
+		headers.add("Sec-WebSocket-Protocol",OCPP_VERSION);
+		WebSocketSession session = client.doHandshake(this,headers, URI.create(LOCAL_BASE_URL+ TEST_CHARGER)).get();
 		return session;
 	}
 
@@ -53,26 +56,61 @@ public class SocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("Connection Established at: "+ session.getId());
 		chargeBoxToSessionMapping.put(TEST_CHARGER,session);
+
 		TextMessage bootNotificationMsg = new TextMessage(bootNotificationService.sendBootNotificationMessage(TEST_CHARGER));
 		session.sendMessage(bootNotificationMsg);
 		log.info(bootNotificationMsg.getPayload());
 
+		TextMessage statusMsg = new TextMessage(statusNotificationService.sendStatusNotificationMessage());
+		log.info(statusMsg.getPayload());
+		session.sendMessage(statusMsg);
+
+		TextMessage heartbeatMsg = new TextMessage(heartbeatService.sendHeartbeatMessage());
+		session.sendMessage(heartbeatMsg);
+		log.info(heartbeatMsg.getPayload());
+
+		TextMessage authoriseMsg = new TextMessage(authoriseService.sendAuthoriseMessage());
+		log.info(authoriseMsg.getPayload());
+		session.sendMessage(authoriseMsg);
+
+		TextMessage startTransactionMsg = new TextMessage(startTransactionService.sendStartTransactionMessage());
+		log.info(startTransactionMsg.getPayload());
+		session.sendMessage(startTransactionMsg);
+
+		TextMessage meterValueMsg = new TextMessage((meterValueService.sendMeterValueMessage()));
+		log.info(meterValueMsg.getPayload());
+		session.sendMessage(meterValueMsg);
+
+		TextMessage stopTransactionMsg = new TextMessage(stopTransactionService.sendStopTransactionMessage());
+		log.info(stopTransactionMsg.getPayload());
+		session.sendMessage(stopTransactionMsg);
 	}
 
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		TextMessage heartbeatMsg = new TextMessage(heartbeatService.sendHeartbeatMessage());
-//		session.sendMessage(heartbeatMsg);
-		TextMessage statusMsg = new TextMessage(statusNotificationService.sendStatusNotificationMessage());
-		log.info(statusMsg.getPayload());
-		session.sendMessage(statusMsg);
-		TextMessage authoriseMsg = new TextMessage(authoriseService.sendAuthoriseMessage());
-		session.sendMessage(authoriseMsg);
-		TextMessage startTransactionMsg = new TextMessage(startTransactionService.sendStartTransactionMessage());
-		session.sendMessage(startTransactionMsg);
-		TextMessage stopTransactionMsg = new TextMessage(stopTransactionService.sendStopTransactionMessage());
-		session.sendMessage(stopTransactionMsg);
 
+		String receivedMessage = (String) message.getPayload();
+		if(receivedMessage.contains("2") && receivedMessage.contains("RemoteStartTransaction")){
+			//We've received a request from server for Remotely Starting a Txn
+			remoteTransactionService.remoteStartTransaction();
+			startTransactionService.sendStartTransactionMessage();
+
+			meterValueService.sendMeterValueMessage();
+
+		}
+		if(receivedMessage.contains("2") && receivedMessage.contains("RemoteStopTransaction")){
+			//We've received a request from server for Remotely Starting a Txn
+			meterValueService.sendMeterValueMessage();
+			remoteTransactionService.remoteStopTransaction();
+			stopTransactionService.sendStopTransactionMessage();
+
+		}
+		if (receivedMessage.contains("3")) {
+			// Process the server's response to the client's request
+			log.info("Received server response: " + receivedMessage);
+		} else {
+			log.info("Error in response from Server");
+		}
 	}
 
 	@Override

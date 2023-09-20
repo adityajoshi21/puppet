@@ -10,20 +10,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+import static com.blucharge.puppet.constants.ApplicationConstants.*;
+
 @Component
 public class StopTransactionServiceImpl implements StopTransactionService {
     @Override
     public  String sendStopTransactionMessage(){
         Random random = new Random();
         String randomStringValue = String.valueOf(random.nextInt(10000));
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         StopTransactionReq req = new StopTransactionReq();
-        req.setTransactionId(1);
-        req.setIdTag("0d11-4a26-92c3");
-        // req.setIdTag("0ff7-1b47-43e0")  //for UAT
+        req.setTransactionId(TRANSACTION_ID);
+        req.setIdTag(ID_TAG_STAGING);
         req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString());
-        req.setMeterStop(28);
+        req.setMeterStop(METER_STOP_VALUE);
         return  "[2,\""+randomStringValue+"\",\"StopTransaction\"," + new Gson().toJson(req)+"]";
     }
 }

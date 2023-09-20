@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+import static com.blucharge.puppet.constants.ApplicationConstants.ID_TAG_STAGING;
+
 @Component
 public class AuthoriseServiceImpl implements AuthoriseService {
 
@@ -15,8 +17,7 @@ public class AuthoriseServiceImpl implements AuthoriseService {
         AuthorizeReq req = new AuthorizeReq();
         Random random = new Random();
         String randomStringValue = String.valueOf(random.nextInt(10000));
-//        req.setIdTag("06d6-4ad8-9d24"); //For Local DB
-        req.setIdTag("0d11-4a26-92c3");  //for UAT
+        req.setIdTag(ID_TAG_STAGING);  //for UAT
         return " [2, \""+randomStringValue+"\",\"Authorize\","+new Gson().toJson(req)+"]";
     }
 }

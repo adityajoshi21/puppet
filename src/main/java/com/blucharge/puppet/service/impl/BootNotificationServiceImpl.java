@@ -4,6 +4,9 @@ import com.blucharge.puppet.service.BootNotificationService;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
 import java.util.Random;
+
+import static com.blucharge.puppet.constants.ApplicationConstants.BOOT_NOTIFICATION_PARAMS;
+
 @Component
 public class BootNotificationServiceImpl implements BootNotificationService {
 
@@ -13,14 +16,14 @@ public class BootNotificationServiceImpl implements BootNotificationService {
         String randomStringValue = String.valueOf(random.nextInt(10000));
         BootNotificationReq req = new BootNotificationReq();
         req.setChargeBoxSerialNumber(chargeBoxId);
-        req.setChargePointModel("HE523853");
+        req.setChargePointModel(BOOT_NOTIFICATION_PARAMS[0]);
         req.setChargePointSerialNumber(chargeBoxId);
-        req.setChargePointVendor("BluSmart");
-        req.setFirmwareVersion("2.13");
-        req.setIccid("9842020537");
-        req.setImsi("523853440097");
-        req.setMeterSerialNumber("MSN007");
-        req.setMeterType("DC");
+        req.setChargePointVendor(BOOT_NOTIFICATION_PARAMS[1]);
+        req.setFirmwareVersion(BOOT_NOTIFICATION_PARAMS[2]);
+        req.setIccid(BOOT_NOTIFICATION_PARAMS[3]);
+        req.setImsi(BOOT_NOTIFICATION_PARAMS[4]);
+        req.setMeterSerialNumber(BOOT_NOTIFICATION_PARAMS[5]);
+        req.setMeterType(BOOT_NOTIFICATION_PARAMS[6]);
         return  "[2,\""+randomStringValue+"\",\"BootNotification\"," + new Gson().toJson(req)+"]";
     }
 }

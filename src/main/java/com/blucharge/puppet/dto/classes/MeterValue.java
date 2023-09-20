@@ -1,9 +1,17 @@
 package com.blucharge.puppet.dto.classes;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MeterValue{
-    private Date timestamp = new Date();
-    private SampledValue sampledValue;
+    public String timestamp;
+    public SampledValue sampledValue;
 
 }
