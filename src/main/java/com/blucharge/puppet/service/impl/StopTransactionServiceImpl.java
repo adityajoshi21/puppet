@@ -7,12 +7,13 @@ import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 import static com.blucharge.puppet.constants.ApplicationConstants.*;
 
-@Component
+@Service
 public class StopTransactionServiceImpl implements StopTransactionService {
     @Override
     public  String sendStopTransactionMessage(){

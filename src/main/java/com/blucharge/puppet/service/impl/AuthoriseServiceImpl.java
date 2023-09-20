@@ -3,13 +3,13 @@ package com.blucharge.puppet.service.impl;
 import com.blucharge.puppet.dto.req.AuthorizeReq;
 import com.blucharge.puppet.service.AuthoriseService;
 import com.google.gson.Gson;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 import static com.blucharge.puppet.constants.ApplicationConstants.ID_TAG_STAGING;
 
-@Component
+@Service
 public class AuthoriseServiceImpl implements AuthoriseService {
 
     @Override

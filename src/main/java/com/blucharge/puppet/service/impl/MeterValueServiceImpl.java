@@ -4,10 +4,11 @@ import com.blucharge.puppet.dto.req.MeterValuesReq;
 import com.blucharge.puppet.service.MeterValueService;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
-@Component
+@Service
 public class MeterValueServiceImpl implements MeterValueService {
 
 

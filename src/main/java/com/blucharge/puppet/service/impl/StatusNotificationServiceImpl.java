@@ -7,12 +7,14 @@ import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.util.Random;
 
 import static com.blucharge.puppet.constants.ApplicationConstants.CONNECTOR_ID;
 import static com.blucharge.puppet.constants.ApplicationConstants.STATUS_NOTIFICATION_PARAMS;
 
-@Component
+@Service
 public class StatusNotificationServiceImpl implements StatusNotificationService {
     public String sendStatusNotificationMessage() {
         Random random = new Random();

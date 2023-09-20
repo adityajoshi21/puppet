@@ -3,10 +3,11 @@ package com.blucharge.puppet.service.impl;
 import com.blucharge.puppet.service.HeartbeatService;
 import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
-@Component
+@Service
 public class HeartbeatServiceImpl implements HeartbeatService {
     @Override
     public String sendHeartbeatMessage() {

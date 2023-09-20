@@ -94,7 +94,6 @@ public class SocketHandler extends TextWebSocketHandler {
 			//We've received a request from server for Remotely Starting a Txn
 			remoteTransactionService.remoteStartTransaction();
 			startTransactionService.sendStartTransactionMessage();
-
 			meterValueService.sendMeterValueMessage();
 
 		}
