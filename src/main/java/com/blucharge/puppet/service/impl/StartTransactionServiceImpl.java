@@ -27,7 +27,7 @@ public class StartTransactionServiceImpl implements StartTransactionService {
         StartTransactionReq req = new StartTransactionReq();
         req.setConnectorId(CONNECTOR_ID);
         req.setMeterStart(METER_START_VALUE);
-        req.setReservationId(RESERVATION_ID);
+//        req.setReservationId(RESERVATION_ID);
         req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString());
         req.setIdTag(ID_TAG_STAGING);
         return  "[2,\""+randomStringValue+"\",\"StartTransaction\"," + new Gson().toJson(req)+"]";

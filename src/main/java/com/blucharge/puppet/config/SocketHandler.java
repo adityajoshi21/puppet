@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.w3c.dom.Text;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -46,11 +47,9 @@ public class SocketHandler extends TextWebSocketHandler {
 		StandardWebSocketClient client = new StandardWebSocketClient();
 		WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
 		headers.add("Sec-WebSocket-Protocol",OCPP_VERSION);
-		WebSocketSession session = client.doHandshake(this,headers, URI.create(LOCAL_BASE_URL+ TEST_CHARGER)).get();
+		WebSocketSession session = client.doHandshake(this,headers, URI.create(STAGING_BASE_URL+ TEST_CHARGER)).get();
 		return session;
 	}
-
-
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -91,18 +90,34 @@ public class SocketHandler extends TextWebSocketHandler {
 
 		String receivedMessage = (String) message.getPayload();
 		if(receivedMessage.contains("2") && receivedMessage.contains("RemoteStartTransaction")){
-			//We've received a request from server for Remotely Starting a Txn
-			remoteTransactionService.remoteStartTransaction();
-			startTransactionService.sendStartTransactionMessage();
-			meterValueService.sendMeterValueMessage();
+			//After we've received a request from server for Remotely Starting a Txn
 
+			TextMessage remoteStartTransactionResponse = new TextMessage(remoteTransactionService.remoteStartTransaction());
+			log.info("Sending response for Remote Start Transaction {}", remoteStartTransactionResponse.getPayload());
+			session.sendMessage(remoteStartTransactionResponse);
+
+
+			TextMessage startTransactionMsg = new TextMessage(startTransactionService.sendStartTransactionMessage());
+			log.info(startTransactionMsg.getPayload());
+			session.sendMessage(startTransactionMsg);
+
+			TextMessage metervalueMsg = new TextMessage((meterValueService.sendMeterValueMessage()));
+			session.sendMessage(metervalueMsg);
 		}
-		if(receivedMessage.contains("2") && receivedMessage.contains("RemoteStopTransaction")){
-			//We've received a request from server for Remotely Starting a Txn
-			meterValueService.sendMeterValueMessage();
-			remoteTransactionService.remoteStopTransaction();
-			stopTransactionService.sendStopTransactionMessage();
 
+		if(receivedMessage.contains("2") && receivedMessage.contains("RemoteStopTransaction")){
+			//After we've received a request from server for Remotely Starting a Txn
+
+			TextMessage metervalueMsg = new TextMessage((meterValueService.sendMeterValueMessage()));
+			session.sendMessage(metervalueMsg);
+
+			TextMessage remoteStopTransactionResponse = new TextMessage(remoteTransactionService.remoteStopTransaction());
+			log.info(remoteStopTransactionResponse.getPayload());
+			session.sendMessage(remoteStopTransactionResponse);
+
+			TextMessage stopTransactionMsg = new TextMessage(stopTransactionService.sendStopTransactionMessage());
+			log.info(stopTransactionMsg.getPayload());
+			session.sendMessage(stopTransactionMsg);
 		}
 		if (receivedMessage.contains("3")) {
 			// Process the server's response to the client's request
