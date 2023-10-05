@@ -6,16 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SampledValue {
-    protected String value;
-    protected ReadingContext context;
-    protected ValueFormat format;
-    protected Measurand measurand;
-    protected Phase phase;
-    protected Location location;
-    protected String unit;
-
+    private String value;
+    private String context;
+    private String format;
+    private String phase;
+    private String measurand;
+    private  String location;
+    private String unit;
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.UUID;
 
 import static com.blucharge.puppet.constants.ApplicationConstants.*;
 
@@ -26,5 +27,15 @@ public class StopTransactionServiceImpl implements StopTransactionService {
         req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString());
         req.setMeterStop(METER_STOP_VALUE);
         return  "[2,\""+randomStringValue+"\",\"StopTransaction\"," + new Gson().toJson(req)+"]";
+    }
+
+
+    @Override
+    public String sendStopTransactionMessageForTransactionId(Integer transactionId) {
+        StopTransactionReq req = new StopTransactionReq();
+        req.setTransactionId(transactionId);
+        req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString());
+        req.setMeterStop(METER_STOP_VALUE);
+        return  "[2,\""+ UUID.randomUUID().toString() +"\",\"StopTransaction\"," + new Gson().toJson(req)+"]";
     }
 }

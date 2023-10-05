@@ -33,4 +33,16 @@ public class StartTransactionServiceImpl implements StartTransactionService {
         return  "[2,\""+randomStringValue+"\",\"StartTransaction\"," + new Gson().toJson(req)+"]";
 
     }
+
+    @Override
+    public String sendStartTransactionMessageFromIdTag(String idTag) {
+        Random random = new Random();
+        String randomStringValue = String.valueOf(random.nextInt(10000));
+        StartTransactionReq req = new StartTransactionReq();
+        req.setConnectorId(CONNECTOR_ID);
+        req.setMeterStart(METER_START_VALUE);
+        req.setTimestamp(DateTime.now(DateTimeZone.UTC).toString());
+        req.setIdTag(idTag);
+        return  "[2,\""+randomStringValue+"\",\"StartTransaction\"," + new Gson().toJson(req)+"]";
+    }
 }

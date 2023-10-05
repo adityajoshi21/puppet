@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 @Slf4j
 public class RemoteStartTransactionReq {
-    private int connectorId;
-    private IdToken idTag;
+    private Integer connectorId;
+    private String idTag;
 
     //chargingProfile class
 }
