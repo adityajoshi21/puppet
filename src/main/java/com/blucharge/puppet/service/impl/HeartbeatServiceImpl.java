@@ -1,7 +1,6 @@
 package com.blucharge.puppet.service.impl;
 
 import com.blucharge.puppet.service.HeartbeatService;
-import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 

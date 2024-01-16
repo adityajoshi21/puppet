@@ -21,5 +21,4 @@ public class BootNotificationReq {
     private String firmwareVersion;
     private String meterSerialNumber;
     private String meterType;
-
 }

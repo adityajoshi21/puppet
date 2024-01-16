@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;

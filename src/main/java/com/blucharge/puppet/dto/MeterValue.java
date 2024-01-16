@@ -1,4 +1,4 @@
-package com.blucharge.puppet.dto.classes;
+package com.blucharge.puppet.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,12 +1,12 @@
-package com.blucharge.puppet.dto.classes;
+package com.blucharge.puppet.dto;
 
 import com.blucharge.puppet.dto.enums.AuthorizationStatus;
+import org.joda.time.DateTime;
 
-import java.util.Date;
 
 public class IdTagInfo {
-    private Date expiryDate= new Date();
-    private IdToken parentIdTag;
+    private DateTime expiryDate= new DateTime();
+    private String parentIdTag;
     private AuthorizationStatus status;
 
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 @Slf4j
 public class BootNotificationConf {
     private Date currentTime = new Date();
-    private int heartbeatInterval;
-    private RegistrationStatus status;
+    private Integer heartbeatInterval;
+    private String status;
 
 }

@@ -2,7 +2,6 @@ package com.blucharge.puppet.service.impl;
 
 import com.blucharge.puppet.dto.conf.RemoteStartTransactionConf;
 import com.blucharge.puppet.dto.conf.RemoteStopTransactionConf;
-import com.blucharge.puppet.dto.enums.ChargePointStatus;
 import com.blucharge.puppet.dto.enums.RemoteStartStopStatus;
 import com.blucharge.puppet.service.RemoteTransactionService;
 import com.google.gson.Gson;
@@ -42,10 +41,10 @@ public class RemoteTransactionServiceImpl implements RemoteTransactionService {
         Boolean state = stateOfChargers.get(TEST_CHARGER);
         if(state){
         stateOfChargers.put(TEST_CHARGER, false); //Set assigned state to false
-            remoteStopTransactionConf.setStatus(RemoteStartStopStatus.Accepted);
+            remoteStopTransactionConf.setStatus(RemoteStartStopStatus.Accepted.name());
             return  "[3,\"" +messageId+"\"," + new Gson().toJson(remoteStopTransactionConf)+"]";
         }
-        remoteStopTransactionConf.setStatus(RemoteStartStopStatus.Rejected);
+        remoteStopTransactionConf.setStatus(RemoteStartStopStatus.Rejected.name());
         return  "[3,\"" +messageId+"\"," + new Gson().toJson(remoteStopTransactionConf)+"]";
     }
 }

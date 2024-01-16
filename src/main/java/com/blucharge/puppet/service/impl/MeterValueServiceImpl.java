@@ -1,7 +1,7 @@
 package com.blucharge.puppet.service.impl;
 
-import com.blucharge.puppet.dto.classes.MeterValue;
-import com.blucharge.puppet.dto.classes.SampledValue;
+import com.blucharge.puppet.dto.MeterValue;
+import com.blucharge.puppet.dto.SampledValue;
 import com.blucharge.puppet.dto.enums.*;
 import com.blucharge.puppet.dto.req.MeterValuesReq;
 import com.blucharge.puppet.service.MeterValueService;

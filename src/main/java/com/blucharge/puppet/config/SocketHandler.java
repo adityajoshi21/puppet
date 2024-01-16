@@ -6,7 +6,6 @@ import com.blucharge.puppet.dto.req.RemoteStartTransactionReq;
 import com.blucharge.puppet.dto.req.RemoteStopTransactionReq;
 import com.blucharge.puppet.service.*;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -113,7 +112,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
 		}
 		 if( !Objects.isNull(messageObj) && MessageType.CALL.equals(messageObj.getType()) && "RemoteStopTransaction".equals(messageObj.getMessageName())){
-			//After we've received a request from server for Remotely Starting a Txn
+			//After we've received a request from server to Remotely Stop a Txn
 
 			TextMessage remoteStopTransactionResponse = new TextMessage(remoteTransactionService.remoteStopTransaction(messageObj.getMessageId()));
 			log.info(remoteStopTransactionResponse.getPayload());
@@ -179,6 +178,13 @@ public class SocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
 		log.info("Connection has been closed!");
+		Boolean connectedCharger = chargeBoxToSessionMapping.containsKey(TEST_CHARGER);
+
+		if(connectedCharger){
+			chargeBoxToSessionMapping.remove(TEST_CHARGER);
+		}
+		else
+			log.error("Couldn't find the charger: {} and charging session: {}", TEST_CHARGER, session);
 	}
 
 	@Override

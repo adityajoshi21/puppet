@@ -11,6 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 
 public class RemoteStopTransactionReq {
-    private int transactionId;
+    private Integer transactionId;
 
 }

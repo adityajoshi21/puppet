@@ -1,7 +1,4 @@
-package com.blucharge.puppet.dto.classes;
-
-
-import com.blucharge.puppet.dto.enums.*;
+package com.blucharge.puppet.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
